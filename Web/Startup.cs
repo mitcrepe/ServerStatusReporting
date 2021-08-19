@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServerStatusReporting.ServerTesting.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ServerStatusReporting.Web
@@ -27,6 +29,13 @@ namespace ServerStatusReporting.Web
         {
             services.AddControllersWithViews();
 
+            var dependencies = Configuration.GetSection("Dependencies");
+
+            services.AddServerStatusReport(options =>
+            {
+                options.TestPath = "/test";
+                options.AddHttpServiceTest(dependencies.GetSection("HttpService").Value, HttpMethod.Get);
+            });
         }
 
 
@@ -46,6 +55,8 @@ namespace ServerStatusReporting.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseServerStatusReport();
 
             app.UseAuthorization();
 

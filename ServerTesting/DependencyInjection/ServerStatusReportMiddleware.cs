@@ -13,11 +13,11 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
 {
     public class ServerStatusReportMiddleware
     {
-        private readonly ServerDependenciesTester _tester = new();
+        private readonly ServerDependenciesTester _tester;
         private readonly RequestDelegate _next;
         private readonly ServerStatusReportOptions _options;
 
-        public ServerStatusReportMiddleware(RequestDelegate next, IOptions<ServerStatusReportOptions> options)
+        public ServerStatusReportMiddleware(RequestDelegate next, IOptions<ServerStatusReportOptions> options, ServerDependenciesTester tester)
         {
             if (next is null)
             {
@@ -31,6 +31,7 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
 
             _next = next;
             _options = options.Value;
+            _tester = tester;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -40,7 +41,7 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
                 await _next(context);
                 return;
             }
-
+            
             ServerStatusReport report;
 
             if (context.Request.Path.Value.EndsWith("simple"))
@@ -51,7 +52,7 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
                     Status = ReportStatus.Ok
                 };
             }
-            else
+            else 
             {
                 report = await _tester.TestServices(_options.Services);
             }

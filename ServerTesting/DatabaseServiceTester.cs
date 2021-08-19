@@ -12,7 +12,12 @@ namespace ServerStatusReporting.ServerTesting
 
         protected override Dictionary<string, string> GetDetails()
         {
-            throw new NotImplementedException();
+            return new Dictionary<string, string>
+            {
+                { "Host", "" },
+                { "Port", "" },
+                { "DbName", "" }
+            };
         }
 
         protected override Task<bool> SendRequest()

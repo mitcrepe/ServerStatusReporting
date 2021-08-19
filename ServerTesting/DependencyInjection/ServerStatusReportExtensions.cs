@@ -11,13 +11,14 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
 {
     public static class ServerStatusReportExtensions
     {
-        public static IServiceCollection ServerStatusReport(this IServiceCollection services, Action<ServerStatusReportOptions> configureOptions)
+        public static IServiceCollection AddServerStatusReport(this IServiceCollection services, Action<ServerStatusReportOptions> configureOptions)
         {
+            services.AddSingleton<ServerDependenciesTester>();
             services.Configure(configureOptions);
             return services;
         }
 
-        public static IApplicationBuilder UseServiceTester(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseServerStatusReport(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<ServerStatusReportMiddleware>();
         }
