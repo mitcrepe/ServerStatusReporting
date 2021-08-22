@@ -46,19 +46,19 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
 
             if (context.Request.Path.Value.EndsWith("simple"))
             {
-                report = new ServerStatusReport()
-                {
-                    Type = ReportType.Simple,
-                    Status = ReportStatus.Ok
-                };
+                report = _tester.SimpleReport();
             }
             else 
             {
                 report = await _tester.TestServices(_options.Services);
             }
 
-            string result = JsonSerializer.Serialize(report, new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            JsonSerializerOptions jsonOptions = new();
+            //jsonOptions.Converters.Add(new JsonStringEnumConverter());
+            jsonOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            string result = JsonSerializer.Serialize(report, jsonOptions);
 
+            context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(result);
             return;
         }

@@ -8,8 +8,6 @@ namespace ServerStatusReporting.ServerTesting
 {
     public class ServerDependenciesTester
     {
-        // Who will set totalstatusreport data? Report Type - simple, full?
-
         public async Task<ServerStatusReport> TestServices(List<ServiceTester> services)
         {
             ServerStatusReport result = new();
@@ -36,6 +34,15 @@ namespace ServerStatusReporting.ServerTesting
             }
 
             return result;
+        }
+
+        public ServerStatusReport SimpleReport()
+        {
+            return new ServerStatusReport()
+            {
+                Type = ReportType.Simple,
+                Status = ReportStatus.Ok
+            };
         }
     }
 }

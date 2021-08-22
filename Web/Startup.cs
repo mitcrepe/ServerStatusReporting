@@ -33,8 +33,9 @@ namespace ServerStatusReporting.Web
 
             services.AddServerStatusReport(options =>
             {
-                options.TestPath = "/test";
+                options.TestPath = "/Test";
                 options.AddHttpServiceTest(dependencies.GetSection("HttpService").Value, HttpMethod.Get);
+                options.AddDatabaseTest(@"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TodoList;Integrated Security=SSPI;");
             });
         }
 

@@ -32,11 +32,10 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
             return options;
         }
 
-        public static ServerStatusReportOptions AddDatabaseTest(this ServerStatusReportOptions options, string conncetionString)
+        public static ServerStatusReportOptions AddDatabaseTest(this ServerStatusReportOptions options, string connectionString)
         {
             options.EnsureServices();
-
-            //options.Services.Add(new HttpServiceDefinition(url, method));
+            options.Services.Add(new DatabaseServiceTester(connectionString));
             return options;
         }
 
