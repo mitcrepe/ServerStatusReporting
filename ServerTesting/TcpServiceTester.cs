@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace ServerStatusReporting.ServerTesting
 
         public override ServiceType Type => ServiceType.Tcp;
 
+        // Overload with IP
         public TcpServiceTester(string host, int port)
         {
             if (host is null)
@@ -33,9 +35,11 @@ namespace ServerStatusReporting.ServerTesting
             };
         }
 
-        protected override Task<bool> SendRequest()
+        protected override async Task<bool> SendRequest()
         {
-            throw new NotImplementedException();
+            using TcpClient client = new TcpClient();
+            await client.ConnectAsync(_host, _port);
+            return true;
         }
     }
 }

@@ -35,7 +35,8 @@ namespace ServerStatusReporting.Web
             {
                 options.TestPath = "/Test";
                 options.AddHttpServiceTest(dependencies.GetSection("HttpService").Value, HttpMethod.Get);
-                options.AddDatabaseTest(@"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=TodoList;Integrated Security=SSPI;");
+                options.AddDatabaseTest(dependencies.GetSection("Database").Value);
+                options.AddTcpTest(dependencies.GetSection("Tcp:Host").Value, int.Parse(dependencies.GetSection("Tcp:Port").Value));
             });
         }
 

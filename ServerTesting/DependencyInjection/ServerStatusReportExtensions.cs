@@ -39,6 +39,13 @@ namespace ServerStatusReporting.ServerTesting.DependencyInjection
             return options;
         }
 
+        public static ServerStatusReportOptions AddTcpTest(this ServerStatusReportOptions options, string host, int port)
+        {
+            options.EnsureServices();
+            options.Services.Add(new TcpServiceTester(host, port));
+            return options;
+        }
+
         private static void EnsureServices(this ServerStatusReportOptions options)
         {
             if (options != null && options.Services == null)
