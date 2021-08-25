@@ -1,5 +1,5 @@
 # Description
-This solution will allow you to quickly add status report for your server. The report will contain information about the connectivity with configured dependent services.
+This solution will allow you to quickly add status report for your server. The report will contain information about the connectivity with configured dependent services. This report can be then consumed by automation systems to automatically detect application connection problems.
 
 # Example usage
 ```c#
@@ -51,3 +51,6 @@ public void ConfigureServices(IServiceCollection services)
     ]
 }
 ```
+
+Serialization for `Status` and `Type` can be change to string or int depending on consuming service.
+
